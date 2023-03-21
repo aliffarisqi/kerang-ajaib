@@ -80,7 +80,7 @@ struct ContentView: View {
                                 }
                         })
                         
-                        NavigationLink(destination: ViewPage2(), label:{
+                        NavigationLink(destination: ViewPage3(), label:{
                             Text("Atau Lewati")
                                 .padding()
                                 .opacity(hideSplashScreen ? 0 : 1)
