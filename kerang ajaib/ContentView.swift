@@ -66,9 +66,11 @@ struct ContentView: View {
                                 callTimer()
                             }
                         }, label:{
-                            Text("Jelajahi Legenda Kerang Ajaib")
-                                .font(.title3)
+                            Text("Jelajahi Legenda \nKerang Ajaib")
                                 .opacity(hideSplashScreen ? 0 : 1)
+                                .foregroundColor(.white)
+                                .shadow(radius: 50)
+                                .font(.custom("Blob Spongey Lowercase", size: 24))
                                 .scaleEffect(splashButton ? 1 : 0)
                                 .onAppear {
                                     Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
