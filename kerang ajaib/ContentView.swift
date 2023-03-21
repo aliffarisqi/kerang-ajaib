@@ -286,7 +286,6 @@ struct ContentView: View {
         timer.fire()
         timer.invalidate()
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
