@@ -11,6 +11,11 @@
 		11BA42F829C5BCCB00031454 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BA42F729C5BCCB00031454 /* ContentView.swift */; };
 		11BA42FA29C5BCCC00031454 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11BA42F929C5BCCC00031454 /* Assets.xcassets */; };
 		11BA42FD29C5BCCC00031454 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11BA42FC29C5BCCC00031454 /* Preview Assets.xcassets */; };
+		11F1E78729C8256E000A652E /* ViewPage2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F1E78629C8256D000A652E /* ViewPage2.swift */; };
+		11F1E78929C89A9C000A652E /* ViewPage3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F1E78829C89A9C000A652E /* ViewPage3.swift */; };
+		11F1E78B29C89B06000A652E /* ViewFlower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F1E78A29C89B06000A652E /* ViewFlower.swift */; };
+		11F1E79629C97246000A652E /* BlobSpongey-ByjG.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11F1E79429C97246000A652E /* BlobSpongey-ByjG.ttf */; };
+		11F1E79729C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11F1E79529C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +24,12 @@
 		11BA42F729C5BCCB00031454 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		11BA42F929C5BCCC00031454 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11BA42FC29C5BCCC00031454 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		11F1E78629C8256D000A652E /* ViewPage2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPage2.swift; sourceTree = "<group>"; };
+		11F1E78829C89A9C000A652E /* ViewPage3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPage3.swift; sourceTree = "<group>"; };
+		11F1E78A29C89B06000A652E /* ViewFlower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFlower.swift; sourceTree = "<group>"; };
+		11F1E79429C97246000A652E /* BlobSpongey-ByjG.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BlobSpongey-ByjG.ttf"; path = "../../../../../Downloads/BlobSpongey-ByjG.ttf"; sourceTree = "<group>"; };
+		11F1E79529C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BlobSpongeyLowercase-wKq3.ttf"; path = "../../../../../Downloads/BlobSpongeyLowercase-wKq3.ttf"; sourceTree = "<group>"; };
+		11F1E79829C97339000A652E /* kerang-ajaib-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "kerang-ajaib-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,9 +62,15 @@
 		11BA42F429C5BCCB00031454 /* kerang ajaib */ = {
 			isa = PBXGroup;
 			children = (
+				11F1E79829C97339000A652E /* kerang-ajaib-Info.plist */,
 				11BA42F529C5BCCB00031454 /* kerang_ajaibApp.swift */,
 				11BA42F729C5BCCB00031454 /* ContentView.swift */,
+				11F1E78A29C89B06000A652E /* ViewFlower.swift */,
+				11F1E78629C8256D000A652E /* ViewPage2.swift */,
+				11F1E78829C89A9C000A652E /* ViewPage3.swift */,
 				11BA42F929C5BCCC00031454 /* Assets.xcassets */,
+				11F1E79429C97246000A652E /* BlobSpongey-ByjG.ttf */,
+				11F1E79529C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf */,
 				11BA42FB29C5BCCC00031454 /* Preview Content */,
 			);
 			path = "kerang ajaib";
@@ -126,7 +143,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				11BA42FD29C5BCCC00031454 /* Preview Assets.xcassets in Resources */,
+				11F1E79729C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf in Resources */,
 				11BA42FA29C5BCCC00031454 /* Assets.xcassets in Resources */,
+				11F1E79629C97246000A652E /* BlobSpongey-ByjG.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +157,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				11BA42F829C5BCCB00031454 /* ContentView.swift in Sources */,
+				11F1E78B29C89B06000A652E /* ViewFlower.swift in Sources */,
+				11F1E78929C89A9C000A652E /* ViewPage3.swift in Sources */,
+				11F1E78729C8256E000A652E /* ViewPage2.swift in Sources */,
 				11BA42F629C5BCCB00031454 /* kerang_ajaibApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +292,7 @@
 				DEVELOPMENT_TEAM = 4UQ7P64XP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "kerang-ajaib-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +322,7 @@
 				DEVELOPMENT_TEAM = 4UQ7P64XP8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "kerang-ajaib-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
