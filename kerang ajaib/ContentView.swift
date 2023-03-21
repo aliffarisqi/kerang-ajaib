@@ -9,101 +9,282 @@ import SwiftUI
 
 struct ContentView: View {
     let items = Array(1...6)
-    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-    //every: durasinya
+    let timer = Timer.publish(every: 8, on: .main, in: .common).autoconnect()
     
     @State private var currentIndex = 0
     @State private var showText1 = false
     @State private var showText2 = false
     @State private var showText3 = false
     @State private var showText4 = false
+    @State private var rotationAngle: Double = 0.0
+    @State private var rotationAngle1: Double = 60.0
+    @State private var offset: CGSize = CGSize(width: 0, height: 0)
+    @State private var splashText: Bool = false
+    @State private var splashLogo: Bool = false
+    @State private var splashButton: Bool = false
+    @State private var hideSplashScreen: Bool = false
+    @State private var showLogoShadow: Bool = false
+    
+    @State private var showButton : Bool = false
+    @State private var showLogo2 : Bool = false
     
     var body: some View {
-        VStack{
-            HStack(spacing:275){
-                Text("Skip")
-                Image(systemName: "speaker.slash") //speaker.wave.2
-            }
-            ScrollView {
-                VStack(spacing:40) {
-                    Image(systemName: "camera")
-                        .frame(height:150)
-                        .padding(.vertical, 300)
-                    HStack{
-                        Text("Dahulu kala terdapat sebuah kerang ajaib yang dipuja-puja segala bangsa")
-                            .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .opacity(showText1 ? 1 : 0)
+        NavigationView{
+            ScrollView{
+                ZStack {
+                    //Splash screen
+                    VStack{
+                        Image("TextLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300)
+                            .opacity(hideSplashScreen ? 0 : 1)
+                            .scaleEffect(splashText ? 1 : 0)
                             .onAppear {
-                                Timer.scheduledTimer(withTimeInterval: 7, repeats: false) { _ in
+                                Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
                                     withAnimation(.easeInOut(duration: 1)) {
-                                        self.showText1 = true
+                                        splashText = true
                                     }
                                 }
                             }
-                        Image(systemName: "camera").frame(width: 150)
-                    }.frame(height: 150)
-                    HStack{
-                        Image(systemName: "camera")
-                            .frame(width: 150)
-                        Text("Segala masalah dapat dipecahkan kerang ajaib, namun segalanya berubah ketika kerang ajaib tiba-tiba menghilang")
-                            .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .opacity(showText2 ? 1 : 0)
+                        Image("Logo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 215)
+                            .opacity(hideSplashScreen ? 0 : 1)
+                            .scaleEffect(splashLogo ? 1 : 0)
                             .onAppear {
-                                Timer.scheduledTimer(withTimeInterval: 11, repeats: false) { _ in
+                                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
                                     withAnimation(.easeInOut(duration: 1)) {
-                                        self.showText2 = true
+                                        splashLogo = true
                                     }
                                 }
                             }
-                    }.frame(height: 170)
-                    HStack{
-                        Text("Ratusan tahun berlalu dan kini kerang ajaib kembali menampakkan dirinya di GOP 9")
-                            .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .opacity(showText3 ? 1 : 0)
-                            .onAppear {
-                                Timer.scheduledTimer(withTimeInterval: 15, repeats: false) { _ in
-                                    withAnimation(.easeInOut(duration: 1)) {
-                                        self.showText3 = true
-                                    }
-                                }
+                        Button(action: {
+                            withAnimation {
+                                hideSplashScreen = true
+                                callTimer()
                             }
-                        Image(systemName: "camera")
-                            .frame(width: 150)
-                    }.frame(height: 150)
-                    HStack{
-                        Image(systemName: "camera")
-                            .frame(width: 150)
-                        Text("Apakah kamu siap untuk kembali memuja kerang ajaib?")
-                            .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .opacity(showText4 ? 1 : 0)
-                            .onAppear {
-                                Timer.scheduledTimer(withTimeInterval: 19, repeats: false) { _ in
-                                    withAnimation(.easeInOut(duration: 1)) {
-                                        self.showText4 = true
+                        }, label:{
+                            Text("Jelajahi Legenda Kerang Ajaib")
+                                .font(.title3)
+                                .opacity(hideSplashScreen ? 0 : 1)
+                                .scaleEffect(splashButton ? 1 : 0)
+                                .onAppear {
+                                    Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
+                                        withAnimation(.easeInOut(duration: 1)) {
+                                            splashButton = true
+                                        }
                                     }
+                                    
                                 }
-                            }
-                    }.frame(height: 150)
-                    Button("Ready"){
+                        })
                         
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .offset(y: CGFloat(currentIndex) * -200) // -angka yg spacenya
-                .onReceive(timer) { _ in
-                    withAnimation {
-                        if currentIndex < 5 {
-                            currentIndex = (currentIndex + 1) % items.count
+                        NavigationLink(destination: ViewPage2(), label:{
+                            Text("Atau Lewati")
+                                .padding()
+                                .opacity(hideSplashScreen ? 0 : 1)
+                                .scaleEffect(splashButton ? 1 : 0)
+                        })
+                    }.padding(.vertical, 150)
+                    //End of splash screen
+                    // Start Story time
+                    if hideSplashScreen == true{
+                        VStack(spacing:30){
+                            HStack{
+                                Text("Dahulu kala terdapat sebuah kerang ajaib yang dipuja-puja segala bangsa...")
+                                    .font(.title2)
+                                    .multilineTextAlignment(.leading)
+                                    .opacity(showText1 ? 1 : 0)
+                                Image("Flower-4")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 120)
+                                    .rotationEffect(.degrees(rotationAngle), anchor: .center)
+                                    .offset(y:30)
+                                    .onAppear {
+                                        withAnimation(
+                                            .linear(duration: 1)
+                                            .speed(0.02).repeatForever(autoreverses: false)) {
+                                                rotationAngle = 360.0
+                                            }
+                                    }
+                            }
+                            Image("LogoShadow")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150)
+                                .scaleEffect(showLogoShadow ? 1 : 0)
+                                .onAppear {
+                                    Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+                                        withAnimation(.easeInOut(duration: 1)) {
+                                            showLogoShadow = true
+                                        }
+                                    }
+                                    
+                                }
+                            HStack{
+                                Image("Flower-2")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150)
+                                    .rotationEffect(.degrees(rotationAngle1), anchor: .center)
+                                    .offset(x:-70)
+                                    .onAppear {
+                                        withAnimation(
+                                            .linear(duration: 1)
+                                            .speed(0.02)
+                                            .repeatForever(autoreverses: false)) {
+                                                rotationAngle1 = -360.0
+                                            }
+                                    }
+                                VStack{
+                                    Text("Segala masalah dapat dipecahkan oleh kerang ajaib…")
+                                        .font(.title2)
+                                        .multilineTextAlignment(.leading)
+                                        .padding(.bottom)
+                                        .offset(x:-70)
+                                        .opacity(showText2 ? 1 : 0)
+                                        .onAppear {
+                                            Timer.scheduledTimer(withTimeInterval:8, repeats: false) { _ in
+                                                withAnimation(.easeInOut(duration: 1)) {
+                                                    self.showText2 = true
+                                                }
+                                            }
+                                        }
+                                    Text("Namun segalanya berubah ketika kerang ajaib menghilang…")
+                                        .font(.title2)
+                                        .multilineTextAlignment(.leading)
+                                        .opacity(showText2 ? 1 : 0)
+                                }.frame(height: 250)
+                            }
+                            HStack{
+                                Text("Ratusan tahun berlalu dan kini kerang ajaib kembali menampakkan dirinya di GOP 9")
+                                    .font(.title2)
+                                    .multilineTextAlignment(.leading)
+                                    .opacity(showText3 ? 1 : 0)
+                                    .onAppear {
+                                        Timer.scheduledTimer(withTimeInterval: 12, repeats: false) { _ in
+                                            withAnimation(.easeInOut(duration: 1)) {
+                                                self.showText3 = true
+                                            }
+                                        }
+                                    }
+                                Image("Flower-1")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .opacity(0.25)
+                                    .frame(width: 100)
+                                    .rotationEffect(.degrees(rotationAngle), anchor: .center)
+                                    .offset(x:60)
+                                    .onAppear {
+                                        withAnimation(
+                                            .linear(duration: 1)
+                                            .speed(0.02)
+                                            .repeatForever(autoreverses: false)) {
+                                                rotationAngle = 360.0
+                                            }
+                                    }
+                            }.padding()
+                            HStack{
+                                Image("Flower-5")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150)
+                                    .opacity(0.35)
+                                    .rotationEffect(.degrees(rotationAngle1), anchor: .center)
+                                    .offset(y:-30)
+                                    .onAppear {
+                                        withAnimation(
+                                            .linear(duration: 1)
+                                            .speed(0.02)
+                                            .repeatForever(autoreverses: false)) {
+                                                rotationAngle1 = -360.0
+                                            }
+                                    }
+                                Text("Apakah kamu siap untuk kembali memuja Sang Kerang Ajaib?")
+                                    .padding()
+                                    .font(.title2)
+                                    .multilineTextAlignment(.leading)
+                                    .opacity(showText4 ? 1 : 0)
+                                    .onAppear {
+                                        Timer.scheduledTimer(withTimeInterval: 15, repeats: false) { _ in
+                                            withAnimation(.easeInOut(duration: 1)) {
+                                                self.showText4 = true
+                                            }
+                                        }
+                                    }
+                            }
+                            NavigationLink(destination: ViewPage2(), label:{
+                                Text("PUJA KERANG AJAIB")
+                                    .padding()
+                                    .background(.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 20)
+                                    .scaleEffect(showButton ? 1 : 0)
+                                    .onAppear {
+                                        Timer.scheduledTimer(withTimeInterval: 32, repeats: false) { _ in
+                                            withAnimation(.easeInOut(duration: 1)) {
+                                                showButton = true
+                                            }
+                                        }
+                                    }
+                            })
+                            
+                            ZStack{
+                                Image("Ground")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .offset(y:175)
+                                Image("Rock")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .offset(y:175)
+                                Image("Logo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width:200)
+                                    .offset(y:75)
+                                    .scaleEffect(showLogo2 ? 1 : 0)
+                                    .onAppear {
+                                        Timer.scheduledTimer(withTimeInterval: 25, repeats: false) { _ in
+                                            withAnimation(.easeInOut(duration: 1)) {
+                                                showLogo2 = true
+                                            }
+                                        }
+                                    }
+                            }
                         }
+                        .offset(y: CGFloat(currentIndex) * -200)
+                        .onReceive(timer) { _ in
+                                withAnimation {
+                                    if currentIndex < 3 {
+                                        currentIndex = (currentIndex + 1) % items.count
+                                    }
+                                }
+                            }
+                        //End of VStack Story Time
                     }
                 }
+            }.background(
+                Image("Ocean")
+                    .resizable()
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            )
+            
         }
+    }
+    
+    func callTimer() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { _ in
+            withAnimation(.easeInOut(duration: 1)) {
+                self.showText1 = true
+            }
         }
+        
+        timer.fire()
+        timer.invalidate()
     }
 }
 
