@@ -9,9 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     let items = Array(1...6)
-    let timer = Timer.publish(every: 8, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 6, on: .main, in: .common).autoconnect()
+    
+    @State var rotationFlowerAngle1: Double = 0.0
+    @State var rotationFlowerAngle2: Double = 0.0
+    @State var flowerScale1:CGFloat = 1.0
+    @State var isAnimateFlower1: Bool = false
+    
+    let gradientColor = LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .top, endPoint: .bottom)
     
     @State private var currentIndex = 0
+    @State private var currentIndexBg = -1
     @State private var showText1 = false
     @State private var showText2 = false
     @State private var showText3 = false
@@ -32,6 +40,69 @@ struct ContentView: View {
         NavigationView{
             ScrollView{
                 ZStack {
+                    VStack{
+                        HStack{
+                            Image("Flower-1")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(Color.cyan.opacity(0.15))
+                                .frame(width: 200)
+                                .rotationEffect(.degrees(rotationFlowerAngle1))
+                                .onAppear{
+                                    withAnimation(
+                                        .linear(duration: 1)
+                                        .speed(0.05)
+                                        .repeatForever(autoreverses: false)) {
+                                            rotationFlowerAngle1 = -360
+                                        }
+                                }
+                            Spacer()
+                            Image("Flower-2")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150)
+                                .foregroundColor(isAnimateFlower1 ? Color.accentColor.opacity(0.4) : Color.yellow.opacity(0.7))
+                                .rotationEffect(.degrees(rotationFlowerAngle2))
+                                .scaleEffect(flowerScale1)
+                            
+                                .onAppear{
+                                    withAnimation(
+                                        .linear(duration: 1)
+                                        .speed(0.05)
+                                        .repeatForever(autoreverses: false)) {
+                                            rotationFlowerAngle2 = 360
+                                        }
+                                }
+                                .onTapGesture {
+                                    withAnimation(.easeOut(duration: 1)) {
+                                        isAnimateFlower1.toggle()
+                                    }
+                                }
+                                .offset(x: 40, y:20)
+                        }
+                        HStack{
+                            Image("Flower-1")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100)
+                                .foregroundColor(Color.yellow.opacity(0.6))
+                                .offset(x: -50)
+                            Spacer()
+                            Image("Flower-1")
+                                .renderingMode(.template)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100)
+                                .foregroundColor(Color.purple.opacity(0.4))
+                                .offset(y: 50)
+                            
+                        }
+                        .padding(0)
+                        Spacer()
+                    }
                     //Splash screen
                     VStack{
                         Image("TextLogo")
@@ -70,7 +141,7 @@ struct ContentView: View {
                                 .opacity(hideSplashScreen ? 0 : 1)
                                 .foregroundColor(.white)
                                 .shadow(radius: 50)
-                                .font(.custom("Blob Spongey Lowercase", size: 24))
+                                .font(.custom("Blob Spongey Lowercase", size: 30))
                                 .scaleEffect(splashButton ? 1 : 0)
                                 .onAppear {
                                     Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
@@ -98,9 +169,12 @@ struct ContentView: View {
                         VStack(spacing:30){
                             HStack{
                                 Text("Dahulu kala terdapat sebuah kerang ajaib yang dipuja-puja segala bangsa...")
-                                    .font(.title2)
+                                    .font(.custom("Blob Spongey Lowercase", size: 20))
                                     .multilineTextAlignment(.leading)
+                                    .lineSpacing(10)
+                                    .foregroundColor(.white)
                                     .opacity(showText1 ? 1 : 0)
+                                    .frame(height: 200)
                                 Image("Flower-4")
                                     .resizable()
                                     .scaledToFit()
@@ -114,14 +188,14 @@ struct ContentView: View {
                                                 rotationAngle = 360.0
                                             }
                                     }
-                            }
+                            }.padding(.horizontal, 20)
                             Image("LogoShadow")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 150)
                                 .scaleEffect(showLogoShadow ? 1 : 0)
                                 .onAppear {
-                                    Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+                                    Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
                                         withAnimation(.easeInOut(duration: 1)) {
                                             showLogoShadow = true
                                         }
@@ -145,36 +219,43 @@ struct ContentView: View {
                                     }
                                 VStack{
                                     Text("Segala masalah dapat dipecahkan oleh kerang ajaib…")
-                                        .font(.title2)
+                                        .font(.custom("Blob Spongey Lowercase", size: 20))
                                         .multilineTextAlignment(.leading)
+                                        .lineSpacing(10)
+                                        .foregroundColor(.white)
                                         .padding(.bottom)
                                         .offset(x:-70)
                                         .opacity(showText2 ? 1 : 0)
                                         .onAppear {
-                                            Timer.scheduledTimer(withTimeInterval:8, repeats: false) { _ in
+                                            Timer.scheduledTimer(withTimeInterval:5, repeats: false) { _ in
                                                 withAnimation(.easeInOut(duration: 1)) {
                                                     self.showText2 = true
                                                 }
                                             }
                                         }
                                     Text("Namun segalanya berubah ketika kerang ajaib menghilang…")
-                                        .font(.title2)
+                                        .font(.custom("Blob Spongey Lowercase", size: 20))
                                         .multilineTextAlignment(.leading)
+                                        .lineSpacing(10)
+                                        .foregroundColor(.white)
                                         .opacity(showText2 ? 1 : 0)
+                                        .padding(.trailing, 35)
                                 }.frame(height: 250)
                             }
                             HStack{
                                 Text("Ratusan tahun berlalu dan kini kerang ajaib kembali menampakkan dirinya di GOP 9")
-                                    .font(.title2)
+                                    .font(.custom("Blob Spongey Lowercase", size: 20))
                                     .multilineTextAlignment(.leading)
+                                    .lineSpacing(10)
+                                    .foregroundColor(.white)
                                     .opacity(showText3 ? 1 : 0)
                                     .onAppear {
-                                        Timer.scheduledTimer(withTimeInterval: 12, repeats: false) { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
                                             withAnimation(.easeInOut(duration: 1)) {
                                                 self.showText3 = true
                                             }
                                         }
-                                    }
+                                    }.padding(.leading, 35)
                                 Image("Flower-1")
                                     .resizable()
                                     .scaledToFit()
@@ -209,8 +290,10 @@ struct ContentView: View {
                                     }
                                 Text("Apakah kamu siap untuk kembali memuja Sang Kerang Ajaib?")
                                     .padding()
-                                    .font(.title2)
+                                    .font(.custom("Blob Spongey Lowercase", size: 20))
                                     .multilineTextAlignment(.leading)
+                                    .lineSpacing(10)
+                                    .foregroundColor(.white)
                                     .opacity(showText4 ? 1 : 0)
                                     .onAppear {
                                         Timer.scheduledTimer(withTimeInterval: 15, repeats: false) { _ in
@@ -218,17 +301,18 @@ struct ContentView: View {
                                                 self.showText4 = true
                                             }
                                         }
-                                    }
+                                    }.padding(.trailing, 25)
                             }
                             NavigationLink(destination: ViewPage2(), label:{
                                 Text("PUJA KERANG AJAIB")
                                     .padding()
                                     .background(.white)
+                                    .font(.custom("Blob Spongey Lowercase", size: 16))
                                     .cornerRadius(10)
-                                    .shadow(radius: 20)
+                                    .shadow(radius: 8)
                                     .scaleEffect(showButton ? 1 : 0)
                                     .onAppear {
-                                        Timer.scheduledTimer(withTimeInterval: 32, repeats: false) { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { _ in
                                             withAnimation(.easeInOut(duration: 1)) {
                                                 showButton = true
                                             }
@@ -240,19 +324,19 @@ struct ContentView: View {
                                 Image("Ground")
                                     .resizable()
                                     .scaledToFit()
-                                    .offset(y:175)
+                                    .offset(y:39)
                                 Image("Rock")
                                     .resizable()
                                     .scaledToFit()
-                                    .offset(y:175)
+                                    .offset(y:40)
                                 Image("Logo")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width:200)
-                                    .offset(y:75)
+                                    .offset(y:-40)
                                     .scaleEffect(showLogo2 ? 1 : 0)
                                     .onAppear {
-                                        Timer.scheduledTimer(withTimeInterval: 25, repeats: false) { _ in
+                                        Timer.scheduledTimer(withTimeInterval: 18, repeats: false) { _ in
                                             withAnimation(.easeInOut(duration: 1)) {
                                                 showLogo2 = true
                                             }
@@ -260,22 +344,27 @@ struct ContentView: View {
                                     }
                             }
                         }
-                        .offset(y: CGFloat(currentIndex) * -200)
+                        .offset(y: CGFloat(currentIndex) * -180)
                         .onReceive(timer) { _ in
-                                withAnimation {
-                                    if currentIndex < 3 {
-                                        currentIndex = (currentIndex + 1) % items.count
-                                    }
+                            withAnimation {
+                                if currentIndex < 3 {
+                                    currentIndex = (currentIndex + 1) % items.count
+                                    currentIndexBg = (currentIndexBg + 1) % items.count
                                 }
                             }
+                        }
                         //End of VStack Story Time
                     }
                 }
-            }.background(
+            }.scrollDisabled(true)
+            .background(
                 Image("Ocean")
                     .resizable()
                     .edgesIgnoringSafeArea(.all)
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    .scaledToFill()
+                    .offset(y: CGFloat(currentIndexBg) * -180)
+                
+            
             )
             
         }

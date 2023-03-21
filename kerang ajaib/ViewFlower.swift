@@ -4,7 +4,6 @@
 //
 //  Created by Bayu Alif Farisqi on 20/03/23.
 //
-
 import SwiftUI
 
 struct ViewFlower: View {
