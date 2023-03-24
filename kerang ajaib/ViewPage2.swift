@@ -140,6 +140,13 @@ struct ViewPage2: View {
                         )
                         .frame(width: 320, height: 200)
                         .cornerRadius(25)
+                        .overlay(alignment: .topLeading, content: {
+                            Text("ketik pertanyaan ...")
+                                .offset(x:10, y:10)                                        .kerning(1.5)
+                                .font(.custom("Blob Spongey Lowercase", size: 18))
+                                .foregroundColor(Color.gray.opacity(0.5))
+                                .offset(x:15, y:15)
+                        })
                         .transition(AnyTransition.scale.animation(.easeInOut))
                     
                 } else if !showMicView{
