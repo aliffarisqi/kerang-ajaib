@@ -16,6 +16,9 @@
 		11F1E78B29C89B06000A652E /* ViewFlower.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F1E78A29C89B06000A652E /* ViewFlower.swift */; };
 		11F1E79629C97246000A652E /* BlobSpongey-ByjG.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11F1E79429C97246000A652E /* BlobSpongey-ByjG.ttf */; };
 		11F1E79729C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11F1E79529C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf */; };
+		ACEFE89E29CF530900ABED39 /* MuteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEFE89D29CF530900ABED39 /* MuteButton.swift */; };
+		ACEFE8A129CF53BE00ABED39 /* BGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACEFE89F29CF53BE00ABED39 /* BGM.mp3 */; };
+		ACEFE8A229CF53BE00ABED39 /* Bubble.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = ACEFE8A029CF53BE00ABED39 /* Bubble.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		11F1E79429C97246000A652E /* BlobSpongey-ByjG.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BlobSpongey-ByjG.ttf"; path = "../../../../../Downloads/BlobSpongey-ByjG.ttf"; sourceTree = "<group>"; };
 		11F1E79529C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BlobSpongeyLowercase-wKq3.ttf"; path = "../../../../../Downloads/BlobSpongeyLowercase-wKq3.ttf"; sourceTree = "<group>"; };
 		11F1E79829C97339000A652E /* kerang-ajaib-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "kerang-ajaib-Info.plist"; sourceTree = SOURCE_ROOT; };
+		ACEFE89D29CF530900ABED39 /* MuteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MuteButton.swift; sourceTree = "<group>"; };
+		ACEFE89F29CF53BE00ABED39 /* BGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = BGM.mp3; path = ../../../../../../../Downloads/BGM.mp3; sourceTree = "<group>"; };
+		ACEFE8A029CF53BE00ABED39 /* Bubble.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Bubble.mp3; path = ../../../../../../../Downloads/Bubble.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,9 @@
 		11BA42F429C5BCCB00031454 /* kerang ajaib */ = {
 			isa = PBXGroup;
 			children = (
+				ACEFE89D29CF530900ABED39 /* MuteButton.swift */,
+				ACEFE89F29CF53BE00ABED39 /* BGM.mp3 */,
+				ACEFE8A029CF53BE00ABED39 /* Bubble.mp3 */,
 				11F1E79829C97339000A652E /* kerang-ajaib-Info.plist */,
 				11BA42F529C5BCCB00031454 /* kerang_ajaibApp.swift */,
 				11BA42F729C5BCCB00031454 /* ContentView.swift */,
@@ -142,9 +151,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEFE8A229CF53BE00ABED39 /* Bubble.mp3 in Resources */,
 				11BA42FD29C5BCCC00031454 /* Preview Assets.xcassets in Resources */,
 				11F1E79729C97246000A652E /* BlobSpongeyLowercase-wKq3.ttf in Resources */,
 				11BA42FA29C5BCCC00031454 /* Assets.xcassets in Resources */,
+				ACEFE8A129CF53BE00ABED39 /* BGM.mp3 in Resources */,
 				11F1E79629C97246000A652E /* BlobSpongey-ByjG.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -156,6 +167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEFE89E29CF530900ABED39 /* MuteButton.swift in Sources */,
 				11BA42F829C5BCCB00031454 /* ContentView.swift in Sources */,
 				11F1E78B29C89B06000A652E /* ViewFlower.swift in Sources */,
 				11F1E78929C89A9C000A652E /* ViewPage3.swift in Sources */,

@@ -5,12 +5,7 @@
 //  Created by Bayu Alif Farisqi on 18/03/23.
 //
 
-import AVFoundation
-import Foundation
 import SwiftUI
-import Speech
-import AVKit
-
 
 struct ContentView: View {
     let items = Array(1...6)
@@ -46,6 +41,7 @@ struct ContentView: View {
             ScrollView{
                 ZStack {
                     VStack{
+                        
                         HStack{
                             Image("Flower-1")
                                 .renderingMode(.template)
@@ -108,9 +104,11 @@ struct ContentView: View {
                         .padding(0)
                         Spacer()
                     }
+                    .navigationBarItems(trailing: ButtonMuteView())
+                    
                     //Splash screen
                     VStack{
-                        Image("TextLogo")
+                        Image("TextLogo3d")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 300)
@@ -123,7 +121,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                        Image("Logo")
+                        Image("Logo3d")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 215)
@@ -158,7 +156,7 @@ struct ContentView: View {
                                 }
                         })
                         
-                        NavigationLink(destination: ViewPage2(), label:{
+                        NavigationLink(destination: ViewPage3(), label:{
                             Text("Atau Lewati")
                                 .padding()
                                 .opacity(hideSplashScreen ? 0 : 1)
@@ -167,7 +165,7 @@ struct ContentView: View {
                                 .foregroundColor(Color.white)
                                 .underline()
                         })
-                    }.padding(.vertical, 150)
+                    }.padding(.vertical, 120)
                     //End of splash screen
                     // Start Story time
                     if hideSplashScreen == true{
@@ -306,7 +304,7 @@ struct ContentView: View {
                                                 self.showText4 = true
                                             }
                                         }
-                                    }.padding(.trailing, 25)
+                                    }.padding(.trailing, 20)
                             }
                             NavigationLink(destination: ViewPage2(), label:{
                                 Text("PUJA KERANG AJAIB")
@@ -329,16 +327,16 @@ struct ContentView: View {
                                 Image("Ground")
                                     .resizable()
                                     .scaledToFit()
-                                    .offset(y:39)
+                                    .offset(y:19)
                                 Image("Rock")
                                     .resizable()
                                     .scaledToFit()
-                                    .offset(y:40)
-                                Image("Logo")
+                                    .offset(y:20)
+                                Image("Logo3d")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width:200)
-                                    .offset(y:-40)
+                                    .offset(y:-55)
                                     .scaleEffect(showLogo2 ? 1 : 0)
                                     .onAppear {
                                         Timer.scheduledTimer(withTimeInterval: 18, repeats: false) { _ in

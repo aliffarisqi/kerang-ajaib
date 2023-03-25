@@ -161,6 +161,7 @@ struct ViewPage3: View {
                     .padding()
                 }
             }
+            .navigationBarItems(trailing: ButtonMuteView())
             .padding(.bottom)
             Image("Kerang")
                 .resizable()
