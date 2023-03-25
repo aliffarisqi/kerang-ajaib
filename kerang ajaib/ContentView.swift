@@ -5,7 +5,12 @@
 //  Created by Bayu Alif Farisqi on 18/03/23.
 //
 
+import AVFoundation
+import Foundation
 import SwiftUI
+import Speech
+import AVKit
+
 
 struct ContentView: View {
     let items = Array(1...6)
