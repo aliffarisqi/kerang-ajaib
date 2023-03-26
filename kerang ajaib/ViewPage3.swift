@@ -94,10 +94,11 @@ struct ViewPage3: View {
     //INISIALISASI AUDIO
     @State var audioPlayerTarikTuas: AVAudioPlayer?
     @State var audioMic: AVAudioPlayer?
+    @State var timerBubble = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     //INISIALISASI Bubble
     @State private var isAnimatedBubble1: Bool = true
-    @State private var poSitionBubble = CGPoint(x: 210, y: 305)
+    @State private var poSitionBubble = CGPoint(x: 210, y: 505)
     @State private var poSitionBubbleAfter = CGPoint(x: 235, y: -170)
     @State private var isAnimationKerang: Bool = true
     @State private var kerangRotationScale: Double = 0.0
@@ -174,6 +175,9 @@ struct ViewPage3: View {
                                 self.isRecording.toggle()
                             }
                             self.isRecording ? self.startRecording() : self.stopRecording()
+                            if !self.isRecording {
+                                placeholderQuestion = "ketik pertanyaan ..."
+                            }
                         }, label:{
                             Image(systemName: "mic.fill")
                                 .font(.largeTitle)
@@ -214,7 +218,6 @@ struct ViewPage3: View {
                         isAnimatedBubble1.toggle()
                         //                        isAnimatedBubble1.toggle()
                     }
-                    
                 }
             LineTuaskerangAjaib(endPoint: lineChange ? lineMoveCoordinate : CGPoint(x: 140, y: -115))
                 .stroke(Color.gray, style: StrokeStyle(lineWidth: 9, lineCap: .round, dash: [8]))
@@ -294,30 +297,29 @@ struct ViewPage3: View {
                         
                     })
                         .onEnded({value in
-                            withAnimation(.spring(response: 2,
-                                                  dampingFraction: 0.5,
-                                                  blendDuration: 1.0)) {
-                                self.offset = CGSize.zero
-                                lineChange = false
-                                if questionIsApproval(){
-                                    getAnswer()
-                                } else{
-                                    self.questionText = questionText
+                            if !isFocused {
+                                withAnimation(.spring(response: 2,
+                                                      dampingFraction: 0.5,
+                                                      blendDuration: 1.0)) {
+                                    self.offset = CGSize.zero
+                                    lineChange = false
+                                    if questionIsApproval(){
+                                        getAnswer()
+                                    } else{
+                                        self.questionText = questionText
+                                    }
+                                    playSound()
                                 }
-                                playSound()
-                                
-                                
+                                withAnimation(.spring(response: 0.3,
+                                                      dampingFraction: 0.1,
+                                                      blendDuration: 3)){
+                                    isAnimationKerang.toggle()
+                                }
+                                let utterance = AVSpeechUtterance(string: "\(answerKerangAjaib)")
+                                utterance.voice = AVSpeechSynthesisVoice(language: "id-ID")
+                                utterance.rate = 0.3
+                                synthesizer.speak(utterance)
                             }
-                            withAnimation(.spring(response: 0.3,
-                                                  dampingFraction: 0.1,
-                                                  blendDuration: 3)){
-                                isAnimationKerang.toggle()
-                            }
-                            let utterance = AVSpeechUtterance(string: "\(answerKerangAjaib)")
-                            utterance.voice = AVSpeechSynthesisVoice(language: "id-ID")
-                            utterance.rate = 0.3
-                            synthesizer.speak(utterance)
-                            
                         })
                 )
             ZStack{
@@ -341,9 +343,7 @@ struct ViewPage3: View {
                     .scaledToFit()
                     .frame(width: isAnimatedBubble1 ? 0 : 200)
                     .position(isAnimatedBubble1 ? poSitionBubble: poSitionBubbleAfter)
-            }
-            
-        }
+            }        }
         .transition(AnyTransition.slide.animation(.easeIn))
     }
     

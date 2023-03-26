@@ -83,6 +83,9 @@ struct ViewPage2: View {
                                         )
                                 }
                             )
+                            .onTapGesture {
+                                playSound()
+                            }
                         }
                         .padding(.horizontal)
                         
