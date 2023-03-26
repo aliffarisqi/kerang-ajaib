@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct ContentView: View {
     let items = Array(1...6)
@@ -35,6 +36,8 @@ struct ContentView: View {
     
     @State private var showButton : Bool = false
     @State private var showLogo2 : Bool = false
+    
+    @State var audioPlayer: AVAudioPlayer?
     
     var body: some View {
         NavigationView{
@@ -115,6 +118,9 @@ struct ContentView: View {
                             .opacity(hideSplashScreen ? 0 : 1)
                             .scaleEffect(splashText ? 1 : 0)
                             .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        playSound()
+                                    }
                                 Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
                                     withAnimation(.easeInOut(duration: 1)) {
                                         splashText = true
@@ -128,14 +134,19 @@ struct ContentView: View {
                             .opacity(hideSplashScreen ? 0 : 1)
                             .scaleEffect(splashLogo ? 1 : 0)
                             .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        playSound()
+                                    }
                                 Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
                                     withAnimation(.easeInOut(duration: 1)) {
+//                                        playSound()
                                         splashLogo = true
                                     }
                                 }
                             }
                         Button(action: {
                             withAnimation {
+                                playSound2()
                                 hideSplashScreen = true
                                 callTimer()
                             }
@@ -147,6 +158,9 @@ struct ContentView: View {
                                 .font(.custom("Blob Spongey Lowercase", size: 30))
                                 .scaleEffect(splashButton ? 1 : 0)
                                 .onAppear {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                            playSound()
+                                        }
                                     Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in
                                         withAnimation(.easeInOut(duration: 1)) {
                                             splashButton = true
@@ -366,12 +380,14 @@ struct ContentView: View {
                     .edgesIgnoringSafeArea(.all)
                     .scaledToFill()
                     .offset(y: CGFloat(currentIndexBg) * -180)
-                
-            
             )
             
+            
         }
+        
     }
+    
+    
     
     func callTimer() {
         let timer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { _ in
@@ -382,6 +398,26 @@ struct ContentView: View {
         
         timer.fire()
         timer.invalidate()
+    }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "BLOOP", withExtension: "mp3") else { return }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func playSound2() {
+        guard let url = Bundle.main.url(forResource: "button2", withExtension: "mp3") else { return }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 
