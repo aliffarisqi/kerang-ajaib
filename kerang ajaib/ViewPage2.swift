@@ -210,6 +210,7 @@ struct ViewPage2: View {
                         .padding(.bottom, 50)
                 }
             }
+            .navigationBarItems(trailing: ButtonMuteView())
         }
         .background(
             Image("Ocean")
