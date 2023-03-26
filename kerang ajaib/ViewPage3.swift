@@ -124,7 +124,7 @@ struct ViewPage3: View {
                 Image("TextLogo3d")
                     .resizable()
                     .scaledToFit()
-                    .rotationEffect(.degrees(isAnimationTextLogo ? 0.0 : 5))
+                    .rotationEffect(.degrees(isAnimationTextLogo ? 0.0 : -5))
                     .frame(width: isAnimationTextLogo ? 170 : 175)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.3,
@@ -174,7 +174,11 @@ struct ViewPage3: View {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.3, blendDuration: 0.3)){
                                 self.isRecording.toggle()
                             }
+                            if self.isRecording{
+                                questionText = ""
+                            }
                             self.isRecording ? self.startRecording() : self.stopRecording()
+                            
                             if !self.isRecording {
                                 placeholderQuestion = "ketik pertanyaan ..."
                             }
