@@ -17,6 +17,8 @@ struct ViewPage2: View {
     @State var showKerangView: Bool = false
     @State var showTextFieldView: Bool = false
     @State var showMicView: Bool = false
+    //INISIALISASI AUDIO
+    @State var audioPlayerTarikTuas: AVAudioPlayer?
     
     var body: some View {
         ZStack{
@@ -57,6 +59,7 @@ struct ViewPage2: View {
                             .padding()
                         HStack{
                             Button(action: {
+                                playSound()
                                 showKerangView.toggle()
                                 showTextFieldView.toggle()
                             }, label:{
@@ -110,6 +113,7 @@ struct ViewPage2: View {
                             .padding()
                         HStack{
                             Button(action: {
+                                playSound()
                                 showMicView.toggle()
                                 showTextFieldView.toggle()
                             }, label:{
@@ -119,6 +123,7 @@ struct ViewPage2: View {
                             })
                             Spacer()
                             Button(action: {
+                                playSound()
                                 showKerangView.toggle()
                                 showTextFieldView.toggle()
                             }, label:{
@@ -164,23 +169,27 @@ struct ViewPage2: View {
                             .multilineTextAlignment(.center)
                             .bold()
                             .foregroundColor(Color.white)
-                        Text("tekan tombol mikrofon untuk memasukkan pertanyaan.")
-                            .font(.custom("Blob Spongey Lowercase", size: 18))
-                            .baselineOffset(4)
-                            .kerning(1.5)
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.yellow)
-                            .padding()
-                        Text("pertanyaan harus berupa \n YES / NO question ")
-                            .baselineOffset(4)
-                            .kerning(1.5)
-                            .font(.custom("Blob Spongey Lowercase", size: 18))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.yellow)
-                            .padding()
+                        VStack{
+                            Text("tekan tombol mikrofon untuk memasukkan pertanyaan.")
+                                .font(.custom("Blob Spongey Lowercase", size: 18))
+                                .baselineOffset(4)
+                                .kerning(1.5)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.yellow)
+                                .padding(.bottom, 5)
+                            Text(" pertanyaan harus berupa \n YES / NO question ")
+                                .font(.custom("Blob Spongey Lowercase", size: 18))
+                                .baselineOffset(4)
+                                .kerning(1.5)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.yellow)
+                        }.padding()
+                       
+                        
                         HStack{
                             Spacer()
                             Button(action: {
+                                playSound()
                                 showTextFieldView.toggle()
                                 showMicView.toggle()
                             }, label:{
@@ -219,6 +228,15 @@ struct ViewPage2: View {
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         )
         .edgesIgnoringSafeArea(.all)
+    }
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "button2", withExtension: "mp3") else { return }
+        do {
+            audioPlayerTarikTuas = try AVAudioPlayer(contentsOf: url)
+            audioPlayerTarikTuas?.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 
@@ -264,6 +282,7 @@ struct BackgroundViewObject: View{
             }
         }
     }
+    
 }
 
 struct ViewPage2_Previews: PreviewProvider {

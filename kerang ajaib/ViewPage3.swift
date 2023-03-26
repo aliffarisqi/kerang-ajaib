@@ -9,7 +9,7 @@ import SwiftUI
 import Speech
 import AVKit
 import AVFoundation
-
+import Combine
 let synthesizer = AVSpeechSynthesizer()
 
 struct LineTuaskerangAjaib: Shape {
@@ -75,7 +75,7 @@ struct ViewPage3: View {
                               "ya", "Mustahil lah", "Ga usah dipikirin, sirem taneman aja", "Chuankksss",
                               "tentu saja", "Jangan halu", "Pasrah aja",
                               "tentu saja tidak", "kamu nanya, kamu bertanya tanya", "iya", "tidak", "yoo ndak tau",
-                              "kamu ngga tau ? Chuankss", "Chuanksss", "apa kepentingan anda bertanya ?", "kamu nenyee", "rrauww"]
+                              "kamu ngga tau ? Chuankss", "Chuanksss", "apa kepentingan anda bertanya ?", "kamu nenyee", "rrauww", "mungkin saja ya", "mungkin saja tidak", "jangan kebanyakan mikir", "sepertinya ya", "sepertinya tidak", "sepertinya kamu kurang aqua" , "iya kali", "bisa, bisa gila", "bangun dari mimpi", "bisa jadi", "mana mungkin", "gak tau, aku ngantuk" ,"dua tiga kucing berlari, bisa aja sih", "tau ah", "gak tau, ngopi aja yuk", "Maaf pertanyaan anda gaje", "maaf, lagi malas mikir"]
     
     //INISIALISASI SPEECH TO TEXT
     @State private var isRecording:Bool = false
@@ -91,6 +91,21 @@ struct ViewPage3: View {
     
     @State var placeholderQuestion = "ketik pertanyaan ..."
     
+    //INISIALISASI AUDIO
+    @State var audioPlayerTarikTuas: AVAudioPlayer?
+    @State var audioMic: AVAudioPlayer?
+    
+    //INISIALISASI Bubble
+    @State private var isAnimatedBubble1: Bool = true
+    @State private var poSitionBubble = CGPoint(x: 210, y: 305)
+    @State private var poSitionBubbleAfter = CGPoint(x: 235, y: -170)
+    @State private var isAnimationKerang: Bool = true
+    @State private var kerangRotationScale: Double = 0.0
+    @State private var isAnimationTuas: Bool = true
+    @State private var TuasRotationScale: Double = 0.0
+    @State private var isAnimationTextLogo: Bool = true
+    @State private var textLogoRotationScale: Double = 0.0
+    
     var body: some View {
         ZStack{
             Image("Ocean")
@@ -98,19 +113,31 @@ struct ViewPage3: View {
                 .edgesIgnoringSafeArea(.all)
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .transition(AnyTransition.slide.animation(.easeIn))
+            Rectangle()
+                .fill(Color("layerDark"))
+                .edgesIgnoringSafeArea(.all)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             ViewFlowerPagePlay()
             VStack{
                 Spacer(minLength: 80)
                 Image("TextLogo3d")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 170)
-                
+                    .rotationEffect(.degrees(isAnimationTextLogo ? 0.0 : 5))
+                    .frame(width: isAnimationTextLogo ? 170 : 175)
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.3,
+                                              dampingFraction: 0.1,
+                                              blendDuration: 3)){
+                            isAnimationTextLogo.toggle()
+                            playSound()
+                        }
+                    }
                 Spacer(minLength: 300)
                 ZStack{
                     Rectangle()
                         .fill(
-                            Color.white.opacity(0.5)
+                            Color("layerRectangle").opacity(0.5)
                         )
                         .frame(maxWidth: .infinity, minHeight: 400)
                         .cornerRadius(50)
@@ -119,7 +146,7 @@ struct ViewPage3: View {
                         ZStack{
                             Rectangle()
                                 .fill(
-                                    Color.white
+                                    Color("layerTextField")
                                 )
                                 .frame(width: 340, height: 200)
                                 .cornerRadius(25)
@@ -130,17 +157,18 @@ struct ViewPage3: View {
                                 .font(.custom("Blob Spongey Lowercase", size: 20))
                                 .baselineOffset(4)
                                 .kerning(1.5)
-                                .foregroundColor(Color.gray.opacity(0.8))
+                                .foregroundColor(Color("fontQuestion").opacity(0.7))
                                 .overlay(alignment: .topLeading, content: {
                                     Text(questionText.isEmpty ? placeholderQuestion : "")
                                         .offset(x:10, y:10)                                        .kerning(1.5)
                                         .font(.custom("Blob Spongey Lowercase", size: 18))
-                                        .foregroundColor(Color.gray.opacity(0.5))
+                                        .foregroundColor(Color("fontQuestion").opacity(0.5))
                                 }).focused($isFocused)
                         }
                         .padding(.top, 15)
                         .padding(.bottom, 10)
                         Button(action: {
+                            playSoundMic()
                             placeholderQuestion = "mendengarkan ..."
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.3, blendDuration: 0.3)){
                                 self.isRecording.toggle()
@@ -152,7 +180,7 @@ struct ViewPage3: View {
                                 .foregroundColor(isRecording ? Color.red : Color.blue)
                                 .padding(20)
                                 .background(
-                                    Color.white.opacity(0.4)
+                                    Color("layerRectangle").opacity(0.4)
                                         .cornerRadius(50)
                                 )
                         })
@@ -163,19 +191,41 @@ struct ViewPage3: View {
             }
             .navigationBarItems(trailing: ButtonMuteView())
             .padding(.bottom)
-            Image("Kerang")
+            Image("Kerang3d")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 250)
-                .position(x:196,y: 260)
+                .rotationEffect(.degrees(isAnimationKerang ? 0.0 : 5))
+                .frame(width: isAnimationKerang ? 270 : 275)
+                .position(x:190,y: 250)
                 .padding(.vertical, 30)
                 .padding(.top, 0)
                 .onTapGesture {
                     isFocused.toggle()
+                    withAnimation(.spring(response: 0.3,
+                                          dampingFraction: 0.1,
+                                          blendDuration: 3)){
+                        isAnimationKerang.toggle()
+                        isAnimationTuas.toggle()
+                        
+                    }
+                    withAnimation(.easeInOut(duration: isAnimatedBubble1 ? 6 : 2)){
+                        hapticEfect()
+                        playSound()
+                        isAnimatedBubble1.toggle()
+                        //                        isAnimatedBubble1.toggle()
+                    }
+                    
                 }
             LineTuaskerangAjaib(endPoint: lineChange ? lineMoveCoordinate : CGPoint(x: 140, y: -115))
-                .stroke(Color.gray, style: StrokeStyle(lineWidth: 7, lineCap: .round, dash: [7]))
+                .stroke(Color.gray, style: StrokeStyle(lineWidth: 9, lineCap: .round, dash: [8]))
                 .frame(width: 200, height: 150)
+            LineTuaskerangAjaib(endPoint: lineChange ? lineMoveCoordinate : CGPoint(x: 140, y: -115))
+                .stroke(Color.white.opacity(0.5), style: StrokeStyle(lineWidth: 5, lineCap: .round, dash: [10]))
+                .frame(width: 200, height: 150)
+                .shadow(radius: 2)
+            
+            
+            
             if answerKerangAjaib != ""{
                 VStack{
                     Text("\(answerKerangAjaib)")
@@ -214,12 +264,24 @@ struct ViewPage3: View {
             Image("Tuas")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 40.0)
+                .rotationEffect(.degrees(isAnimationTuas ? 0.0 : 5))
+                .frame(width: isAnimationTuas ? 40.0 : 43.0)
                 .position(x:245,y: 230)
                 .offset(offset)
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.3,
+                                          dampingFraction: 0.1,
+                                          blendDuration: 3)){
+                        isAnimationKerang.toggle()
+                        isAnimationTuas.toggle()
+                        playSound()
+                    }
+                }
                 .gesture(DragGesture(minimumDistance: 1)
                     .onChanged({ value in
+                        
                         if !isFocused {
+                            //
                             self.offset = value.translation
                             self.lastDragPosition = value
                             self.linePosition.x =  value.location.x
@@ -227,7 +289,9 @@ struct ViewPage3: View {
                             self.lineMoveCoordinate = CGPoint(x: self.linePosition.x - 100.0, y: self.linePosition.y - 360.0)
                             lineChange = true
                             self.answerKerangAjaib = ""
+                            
                         }
+                        
                     })
                         .onEnded({value in
                             withAnimation(.spring(response: 2,
@@ -240,6 +304,14 @@ struct ViewPage3: View {
                                 } else{
                                     self.questionText = questionText
                                 }
+                                playSound()
+                                
+                                
+                            }
+                            withAnimation(.spring(response: 0.3,
+                                                  dampingFraction: 0.1,
+                                                  blendDuration: 3)){
+                                isAnimationKerang.toggle()
                             }
                             let utterance = AVSpeechUtterance(string: "\(answerKerangAjaib)")
                             utterance.voice = AVSpeechSynthesisVoice(language: "id-ID")
@@ -248,6 +320,29 @@ struct ViewPage3: View {
                             
                         })
                 )
+            ZStack{
+                Image("Bubbles-2")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: isAnimatedBubble1 ? 0 : 200)
+                    .position(isAnimatedBubble1 ? poSitionBubble: poSitionBubbleAfter)
+                Image("Bubbles-2")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: isAnimatedBubble1 ? 0 : 200)
+                    .position(isAnimatedBubble1 ? poSitionBubble: poSitionBubbleAfter)
+                Image("Bubbles-3")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: isAnimatedBubble1 ? 0 : 200)
+                    .position(isAnimatedBubble1 ? poSitionBubble: poSitionBubbleAfter)
+                Image("Bubbles-5")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: isAnimatedBubble1 ? 0 : 200)
+                    .position(isAnimatedBubble1 ? poSitionBubble: poSitionBubbleAfter)
+            }
+            
         }
         .transition(AnyTransition.slide.animation(.easeIn))
     }
@@ -262,18 +357,24 @@ struct ViewPage3: View {
     func getAnswer() {
         self.answerKerangAjaib = self.answersKerangAjaib.randomElement() ?? "Error"
     }
+    func hapticEfect(){
+        let generator = UINotificationFeedbackGenerator()
+        return generator.notificationOccurred(.success)
+    }
     
     //FUNCTION RECORDING
     func startRecording(){
         outputText = "";
-        inputNode = audioEngine.inputNode
         do{
             audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+            //            try? audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers, .allowBluetoothA2DP])
+            try audioSession.setCategory(.playAndRecord, mode: .measurement, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         }catch{
             print("ERROR: - Audio Session Failed!")
         }
+        
+        inputNode = audioEngine.inputNode
         let recordingFormat = inputNode.outputFormat(forBus: 0)
         inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
             self.recognitionRequest?.append(buffer)
@@ -310,9 +411,11 @@ struct ViewPage3: View {
         self.recognitionTask?.cancel()
         self.recognitionTask = nil
         
-        try? audioSession.setCategory(AVAudioSession.Category.playAndRecord)
+        //        try? audioSession.setCategory(AVAudioSession.Category.playAndRecord)
         try? audioSession.setMode(AVAudioSession.Mode.default)
-        try? audioSession.setActive(false, options: .notifyOthersOnDeactivation)
+        
+        try? audioSession.setCategory(.playAndRecord, mode: .default, options: [.mixWithOthers])
+        try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         try? AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
         
         audioSession = nil
@@ -331,6 +434,24 @@ struct ViewPage3: View {
             return "Restricted - Close the App"
         default:
             return "ERROR: No Status Defined"
+        }
+    }
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "Bubble", withExtension: "mp3") else { return }
+        do {
+            audioPlayerTarikTuas = try AVAudioPlayer(contentsOf: url)
+            audioPlayerTarikTuas?.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    func playSoundMic() {
+        guard let url = Bundle.main.url(forResource: "Bubble", withExtension: "mp3") else { return }
+        do {
+            audioMic = try AVAudioPlayer(contentsOf: url)
+            audioMic?.play()
+        } catch let error {
+            print(error.localizedDescription)
         }
     }
 }

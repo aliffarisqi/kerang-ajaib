@@ -165,7 +165,7 @@ struct ContentView: View {
                                 .foregroundColor(Color.white)
                                 .underline()
                         })
-                    }.padding(.vertical, 120)
+                    }.padding(.vertical, 55)
                     //End of splash screen
                     // Start Story time
                     if hideSplashScreen == true{
